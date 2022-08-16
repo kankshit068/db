@@ -1,0 +1,25 @@
+create database proctor;
+use proctor;
+
+create table faculty (faculty_id int, faculty_name varchar(20), faculty_mobileno int, primary key(faculty_id));
+
+create table student (USN int, student_name  varchar(20), student_mobileno int, student_email  varchar(20), 
+department  varchar(20), parent_name  varchar(20), parent_mobileno  varchar(20), address  varchar(20), faculty_id int, 
+primary key(USN), foreign key (faculty_id) references faculty(faculty_id));
+
+create table course (course_code int, course_name varchar(20), credits int, primary key(course_code));
+
+create table meetings (sl_no int, mdate date, purpose varchar(20), outcome varchar(20), meeting_with varchar(20), faculty_id int, 
+primary key(sl_no), foreign key (faculty_id) references faculty(faculty_id));
+
+create table leave_record (sl_no int, ldate date, reason varchar(20), dstart date, dend date, faculty_id int, USN int,
+primary key(sl_no), foreign key (faculty_id) references faculty(faculty_id), foreign key (USN) references student(USN));
+
+create table student_activity (sl_no int, start_date date, end_date date, company varchar(20), faculty_id int, USN int,
+primary key(sl_no), foreign key (faculty_id) references faculty(faculty_id), foreign key (USN) references student(USN));
+
+create table course_faculty (course_code int, faculty_id int, primary key(course_code,faculty_id), 
+foreign key (course_code) references course(course_code), foreign key (faculty_id) references faculty(faculty_id));
+
+create table student_course (USN int, course_code int, grade varchar(5), cgpa real, sgpa real, see_mark real, cie_mark real, attendence real, 
+primary key(USN,course_code), foreign key (course_code) references course(course_code), foreign key (USN) references student(USN));
